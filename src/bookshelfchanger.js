@@ -10,17 +10,22 @@ class BookshelfChanger extends React.Component {
     this.OnChange = this.OnChange.bind(this);
   }
 
-  componentDidMount() { 
+  componentDidMount() {
+    const { book } = this.props;
     // check if shelf is set for book to be displayed, if not obtain it for the specific book
-    if (this.props.book.shelf === undefined) {
-      BooksAPI.get(this.props.book.id)
+    if (book.shelf === undefined) {
+      this.getId(book.id);
+    } else {
+      this.setState({book});
+    };
+  };
+
+  getId(id){
+    BooksAPI.get(id)
       .then((book) => {
         this.setState(() => ({ book }))
-    })    
-    } else {
-      this.setState({book: this.props.book});
-    }
-  }
+      });
+  };
 
   OnChange(event) {
     const shelf = event.target.value;

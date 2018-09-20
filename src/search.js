@@ -42,8 +42,9 @@ class Search extends React.Component {
   * @param {string} value to check
   * @returns {list} exact matches from suggested terms for value
   */
-  Search = (term) => {
-    BooksAPI.search(term,30).then((books) => {
+  search = (term) => {
+    BooksAPI.search(term,30)
+    .then((books) => {
       if(books){
         if(books.length>0){
           const results = books.map((book) => {
@@ -54,18 +55,25 @@ class Search extends React.Component {
           this.setState({ books: results })
         }
         else {
-          this.setState({books: []})
+          this.clearBooks();
         }
       }
       else {
-          this.setState({books: []})
+          this.clearBooks();
         }
     })
+    .catch(error => {
+      this.clearBooks();
+    });
   }
 
-  SearchAllMatches = (matches) => {
+  clearBooks() {
+    this.setState({books: []})
+  }
+
+  searchAllMatches = (matches) => {
     matches.map(m => {
-      return this.Search(m);
+      return this.search(m);
     })
   }
 
@@ -73,7 +81,7 @@ class Search extends React.Component {
     this.setState({
       query: value,
     })
-    this.Search(value);
+    this.search(value);
   }
 
   OnChange = (event) => {
@@ -111,4 +119,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search
+export default Search;
