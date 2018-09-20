@@ -22,13 +22,10 @@ class Book extends React.Component {
   * @description render function
   */
   render() {
-    let thumbnail = '';
-    try {
-      thumbnail = this.props.book.imageLinks.thumbnail;
-    } catch (e) {
-      // no need to do anything here
-    }
-
+    const {book, update} = this.props;
+    const {imageLinks, title, authors} = book;
+    const placeholder = "http://via.placeholder.com/128x193?text=No%20Cover";
+    const thumbnail =  imageLinks ? imageLinks.thumbnail : placeholder;
     return ( 
       <div className="book">
         <div className="book-top">
@@ -39,13 +36,15 @@ class Book extends React.Component {
                        backgroundImage: `url(${thumbnail})` 
                      }}>
           </div>
-          <BookshelfChanger book={this.props.book} update={this.update}/>
+          <BookshelfChanger book={book} update={update}/>
         </div>
-      <div className="book-title">{this.props.book.title}</div>
-      <div className="book-authors"><ul>{this.props.book.authors}</ul></div>
+      <div className="book-title">{title}</div>
+      <div className="book-authors">
+        {authors ? authors.join(', ') : 'Author Unknown'}
+      </div>
       </div>
     )
   }
 }
 
-export default Book
+export default Book;

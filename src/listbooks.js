@@ -1,29 +1,17 @@
 import React from 'react'
 import Book from './book'
 
-class ListBooks extends React.Component {
-  constructor(props){
-    super(props);
-    this.update = this.update.bind(this);
+const ListBooks = ({update, books}) => (
+  <ol className="books-grid">
+  {
+    books.map((book)=>(
+      <li key={book.id} className="book-list-name">
+        <Book book={book} update={update}/>
+      </li>
+    ))
   }
-  
-  update(book) {
-    this.props.update(book);
-  }
-  
-  render() {
-    return (
-      <ol className="books-grid">
-      {
-        this.props.books.map((book)=>(
-          <li key={book.id} className="book-list-name">
-            <Book book={book} update={this.update}/>
-          </li>
-        ))
-      }
-      </ol>
-    )
-  }
-}
+  </ol>
+)
 
-export default ListBooks
+export default ListBooks;
+
